@@ -11,6 +11,9 @@
     
     // instantiate book object
     include_once '../objects/users.php';
+
+    require_once "../auth/Bcrypt.php";
+    $bc = new Bcrypt();
     
     $database = new Database();
     $db = $database->db_conn();
@@ -26,6 +29,21 @@
         !empty($data->password)
     ){
         $user->email = $data->email;
-        $user->password = $data->password;
+        $password = $data->password;
+        $result = $user->get_user();
+        $password_hash = $result['password'];
+        if($bc->check_password($password, $password_hash)){
+            // set response code - 201 created
+            http_response_code(201);
+    
+            // tell the user
+            echo json_encode(array("message" => "Login successful."));
+        }else{
+            // set response code - 503 service unavailable
+            http_response_code(503);
+    
+            // tell the user
+            echo json_encode(array("message" => "Invalid login details."));
+        }
     }
 ?>

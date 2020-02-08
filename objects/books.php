@@ -70,7 +70,7 @@
         function readOne(){
  
             // query to read single record
-            $query = $query = "SELECT * FROM ".$this->table_name." WHERE id=? LIMIT 0,1";
+            $query = "SELECT * FROM ".$this->table_name." WHERE id=? LIMIT 0,1";
         
             // prepare query statement
             $stmt = $this->conn->prepare( $query );
