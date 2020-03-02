@@ -24,7 +24,7 @@
 
     $user = new user($db);
     
-    // get posted data
+    // get data
     $data = json_decode(file_get_contents("php://input"));
  
     // make sure data is not empty
@@ -40,13 +40,13 @@
             // set response code - 201 created
             http_response_code(201);
             
-            //generate token
+            // generate token
             $secret_key = "$2a$08l9bw8Noni4Bd/ka9RJYK0u3cSOCIC81YgJs";
             $issuer_claim = "localhost_server";
             $audience_claim = "book_client";
             $issued_at_claim = time();
             $not_before_claim = time()+10;
-            $expire_claim = time()+60;
+            $expire_claim = time()+180;
 
             $token = array(
                 "iss" => $issuer_claim,
@@ -58,12 +58,13 @@
                 "id" => $result['id'],
                 "first_name" => $result['first_name'],
                 "last_name" => $result['last_name'],
-                "email" => $result['email']
+                "email" => $result['email'],
+                "user_type" => $result['user_type']
             ));
 
             $jwt = JWT::encode($token, $secret_key);
             
-            //show output to the user
+            // show output to the user
             echo json_encode(
                 array(
                     "message" => "Login successful.",
@@ -74,7 +75,7 @@
             // set response code - 503 service unavailable
             http_response_code(503);
     
-            // tell the user
+            // display message
             echo json_encode(array("message" => "Invalid login details."));
         }
     }

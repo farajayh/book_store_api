@@ -4,14 +4,14 @@
     header("Content-Type: application/json; charset=UTF-8");
 
     // include database and object files
-    include_once '../config/db_connection.php';
-    include_once '../objects/books.php';
+    require_once "../config/db_connection.php";
+    require_once "../objects/books.php";
  
     // instantiate database and book object
     $database = new Database();
     $db = $database->db_conn();
  
-    // initialize object
+    // initialise object
     $book = new Book($db);
 
     // query books
@@ -46,14 +46,14 @@
     // set response code - 200 OK
     http_response_code(200);
  
-    // show products data in json format
+    // show books data in json format
     echo json_encode($books_arr);
    }else{
  
     // set response code - 404 Not found
     http_response_code(404);
  
-    // tell the user no products found
+    // display message
     echo json_encode(
         array("message" => "No book found.")
     );

@@ -1,5 +1,5 @@
 <?php
-        // required headers
+    // required headers
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Headers: access");
     header("Access-Control-Allow-Methods: GET");
@@ -7,13 +7,14 @@
     header('Content-Type: application/json');
     
     // include database and object files
-    include_once '../config/db_connection.php';
-    include_once '../objects/books.php';
+    require_once "../config/db_connection.php";
+    require_once "../objects/books.php";
+    
     // get database connection
     $database = new Database();
     $db = $database->db_conn();
     
-    // prepare book object
+    // initialise book object
     $book = new Book($db);
     
     // set ID property of record to read
@@ -43,7 +44,7 @@
         // set response code - 404 Not found
         http_response_code(404);
     
-        // tell the user book does not exist
+        // display message
         echo json_encode(array("message" => "book does not exist."));
     }
 ?>
